@@ -34,7 +34,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/table", function(req, res) {
-  res.sendFile(path.join(__dirname, "add.html"));
+  res.sendFile(path.join(__dirname, "tables.html"));
 });
 
 app.get("/reserve", function(req, res) {
@@ -65,19 +65,38 @@ app.get("/api/reservations", function(req, res) {
   });
 
 app.post("/api/reservations", function(req, res) {
-  // req.body hosts is equal to the JSON post sent from the user
-  // This works because of our body parsing middleware
-  var newReservation = req.body;
+  if (reservations.length < 5) {
 
-  newReservation.routeName = newReservation.name
-    .replace(/\s+/g, "")
-    .toLowerCase();
+    // req.body hosts is equal to the JSON post sent from the user
+    // This works because of our body parsing middleware
+    var newReservation = req.body;
+    console.log(newReservation);
+    newReservation.routeName = newReservation.name
+      .replace(/\s+/g, "")
+      .toLowerCase();
+  
+    console.log(newReservation);
+  
+    reservations.push(newReservation);
+  
+    res.json(newReservation);
+  }
+  else {
 
-  console.log(newReservation);
-
-  reservations.push(newReservation);
-
-  res.json(newReservation);
+    // req.body hosts is equal to the JSON post sent from the user
+    // This works because of our body parsing middleware
+    var newWaitingList = req.body;
+  
+    newWaitingList.routeName = newWaitingList.name
+      .replace(/\s+/g, "")
+      .toLowerCase();
+  
+    console.log(newWaitingList);
+  
+    waitingList.push(newWaitingList);
+  
+    res.json(newWaitingList);
+  }
 });
 
 app.post("/api/waitingList", function(req, res) {
@@ -91,7 +110,7 @@ app.post("/api/waitingList", function(req, res) {
   
     console.log(newWaitingList);
   
-    reservations.push(newWaitingList);
+    waitingList.push(newWaitingList);
   
     res.json(newWaitingList);
   });
