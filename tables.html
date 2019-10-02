@@ -65,20 +65,60 @@
 
     <script type="text/javascript">
 
-        // app.get("/api/reservations", function (req, res) {
-        //     return res.json(reservations);
-        // });
-        
+        $('#clear').on('click', function () {
+            $.ajax({
+                url: "/api/clear",
+                method: "POST"
+            })
+            .done(function(data) {
+                $('#tableSection').empty();
+                $('#waitlistSection').empty();
+            });
+        });
+
+        function loadReservations () {
             $.ajax ({
                 url: "/api/reservations", 
-                method: "GET",     
-          })
+                method: "GET",
+            })
+            .done(function (data) {
+
+                // Loop through each reservation and add it to the page
+                for (let i = 0; i < data.length; i++) {
+                    const currentReservation = data[i];
+
+                    addTableEntry(currentReservation.id, i + 1, currentReservation.name);
+                }
+            });
+        }
+
+        function loadWaitlist () {
+            $.ajax ({
+                url: "/api/waitingList", 
+                method: "GET",
+            })
+            .done(function (data) {
+
+                // Loop through each waiting and add it to the page
+                for (let i = 0; i < data.length; i++) {
+                    const currentWaiting = data[i];
+
+                    addWaitlistEntry(currentWaiting.id, i + 1, currentWaiting.name);
+                }
+            });
+        }
+
+        loadReservations();
+        loadWaitlist();
+
         function addTableEntry(tableID, tableOrder, tableName) {
-            var entryHTML = `<div class="well" id="tableWell-${tableID}"><h2><span class="label label-primary">${tableOrder}</span> | ${tableName}</h2></div>`;
+            var entryHTML = $(`<div class="well" id="tableWell-${tableID}"><h2><span class="label label-primary">${tableOrder}</span> | ${tableName}</h2></div>`);
+            $('#tableSection').append(entryHTML);
         }
 
         function addWaitlistEntry(waitlistID, waitlistOrder, waitlistName) {
-            var entryHTML = `<div class="well" id="waitlistWell-${waitlistID}"><h2><span class="label label-primary">${waitlistOrder}</span> | ${waitlistName}</h2></div>`;
+            var entryHTML = $(`<div class="well" id="waitlistWell-${waitlistID}"><h2><span class="label label-primary">${waitlistOrder}</span> | ${waitlistName}</h2></div>`);
+            $('#waitlistSection').append(entryHTML);
         }
     </script>
 </body>
