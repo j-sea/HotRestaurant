@@ -30,7 +30,7 @@ Note: We know this is a hard activity. We know you aren't yet comfortable with N
 
 //* Create a basic server using Express.JS
 
-* Create a few array variables that will hold the data
+//* Create a few array variables that will hold the data
 
 * Create a set of routes for getting and posting table data
 
