@@ -50,14 +50,14 @@ app.get("/api/reservations", function(req, res) {
   });
 
 
-  app.get("/api/characters/:character", function(req, res) {
-    var chosen = req.params.character;
+  app.get("/api/reservations/:reservation", function(req, res) {
+    var chosen = req.params.reservation;
   
     console.log(chosen);
   
-    for (var i = 0; i < characters.length; i++) {
-      if (chosen === characters[i].routeName) {
-        return res.json(characters[i]);
+    for (var i = 0; i < reservations.length; i++) {
+      if (chosen === reservations[i].routeName) {
+        return res.json(reservations[i]);
       }
     }
   
